@@ -1,21 +1,21 @@
 import { Button } from '@/components/ui/button';
-import { MessageCircle, Phone, ArrowRight } from 'lucide-react';
+import { MessageCircle, Phone, ArrowRight, Stethoscope } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-slate-50 py-20 lg:py-32">
+    <section className="relative overflow-hidden bg-slate-50 pt-10 pb-16 sm:pt-14 sm:pb-20 lg:pt-16 lg:pb-24">
       {/* Background Decoration */}
       <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[400px] h-[400px] bg-blue-400/5 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="space-y-8"
+            className="space-y-6"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
               <span className="relative flex h-2 w-2">
@@ -25,7 +25,7 @@ export default function Hero() {
               Accepting New Patients
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 leading-[1.1]">
+            <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight text-slate-900 leading-[1.1]">
               Your Health is Our <span className="text-primary">Top Priority</span>
             </h1>
             
@@ -48,7 +48,7 @@ export default function Hero() {
               </Button>
             </div>
 
-            <div className="flex items-center gap-6 pt-4">
+            <div className="flex items-center gap-6 pt-2">
               <div className="flex -space-x-3">
                 {[1, 2, 3, 4].map((i) => (
                   <img
@@ -77,12 +77,12 @@ export default function Hero() {
               <img
                 src="https://picsum.photos/seed/clinic-hero/800/600"
                 alt="Modern Clinic"
-                className="w-full h-auto object-cover"
+                className="h-[320px] w-full object-cover sm:h-[420px] lg:h-[520px]"
                 referrerPolicy="no-referrer"
               />
             </div>
             {/* Floating Card */}
-            <div className="absolute -bottom-6 -left-6 z-20 bg-white p-6 rounded-xl shadow-xl border max-w-[240px] hidden md:block">
+            <div className="absolute bottom-6 left-6 z-20 hidden max-w-[240px] rounded-xl border bg-white p-6 shadow-xl md:block">
               <div className="flex items-center gap-4 mb-2">
                 <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
                   <Stethoscope className="h-6 w-6 text-primary" />
@@ -102,5 +102,3 @@ export default function Hero() {
     </section>
   );
 }
-
-import { Stethoscope } from 'lucide-react';
