@@ -2,7 +2,7 @@
 
 VitalCare Clinic is a full-stack MERN clinic website for presenting medical services, doctor information, testimonials, contact details, and appointment booking flows.
 
-The project is currently split into a Vite React frontend and an Express/MongoDB backend. The frontend is mostly built out, while the backend appointment API is available and ready to be connected fully to the contact form.
+The project is currently split into a Vite React frontend and an Express/MongoDB backend. The frontend is mostly built out, and the appointment form now submits booking requests to the backend API.
 
 ## Current Status
 
@@ -12,8 +12,8 @@ The project is currently split into a Vite React frontend and an Express/MongoDB
 - Contact page includes clinic details, map embed, and an appointment request form UI.
 - Express backend is set up with MongoDB connection support through Mongoose.
 - Appointment model and API routes are implemented for creating and listing appointments.
-- The frontend API helper points to `http://localhost:5000/api`.
-- The contact form UI currently prevents default submit behavior, but it is not yet wired to send form values to the backend.
+- The frontend API helper uses `VITE_API_URL` when provided and falls back to `http://localhost:5000/api`.
+- The contact form sends appointment requests to the backend and shows inline success or error messages.
 
 ## Tech Stack
 
@@ -74,7 +74,7 @@ vitalcare-clinic/
 - Doctor profile section
 - Testimonials section
 - Contact page with Google Maps embed
-- Appointment request form UI
+- Appointment request form with backend submission
 - Floating WhatsApp booking shortcut
 - Phone call CTA links
 - Appointment API with MongoDB persistence
@@ -149,7 +149,22 @@ MONGO_URI=your_mongodb_connection_string
 
 `PORT` is optional and defaults to `5000`. The backend also checks `server/src/.env`, but `server/.env` is the preferred location.
 
-### 4. Run Backend
+### 4. Configure Frontend Environment
+
+Create a `.env` file inside `client/` when you need to point the frontend at a different API URL:
+
+```bash
+cd client
+Copy-Item .env.example .env
+```
+
+The default local value is:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+### 5. Run Backend
 
 ```bash
 cd server
@@ -162,7 +177,7 @@ The backend runs on:
 http://localhost:5000
 ```
 
-### 5. Run Frontend
+### 6. Run Frontend
 
 ```bash
 cd client
@@ -196,16 +211,11 @@ npm start         # Run compiled backend from dist/
 
 ## Notes
 
-- The frontend contact form imports the appointment API helper, but the form fields are not currently controlled or submitted to the API.
 - Clinic phone number, WhatsApp number, email, location, doctor profile, and images are still placeholder/demo content.
-- The client `.env.example` is from the starter template and includes Gemini/AI Studio values that are not currently part of the main clinic booking flow.
+- The client `.env.example` documents the appointment API URL used by the Vite app.
 
 ## Next Steps
 
-- Wire the contact form inputs to local state.
-- Submit appointment requests through `createAppointment`.
-- Add success and error messages for the booking form.
-- Move the API base URL into an environment variable.
 - Replace placeholder clinic details, WhatsApp number, map location, and images with real clinic data.
 - Add validation on both frontend and backend.
 - Add an admin view or dashboard for managing appointment requests.

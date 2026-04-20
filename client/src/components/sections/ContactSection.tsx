@@ -14,22 +14,28 @@ import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { motion } from "motion/react";
 import { createAppointment } from "../../../services/api";
 
-export default function ContactSection() {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    phone: "",
-    email: "",
-    service: "",
-    preferredDate: "",
-    preferredTime: "",
-    message: "",
-  });
+const initialFormData = {
+  fullName: "",
+  phone: "",
+  email: "",
+  service: "",
+  preferredDate: "",
+  preferredTime: "",
+  message: "",
+};
 
+export default function ContactSection() {
+  const [formData, setFormData] = useState(initialFormData);
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     setFormData({
       ...formData,
@@ -40,21 +46,32 @@ export default function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.fullName || !formData.phone) {
-      alert("Name and phone are required");
+    if (!formData.fullName.trim() || !formData.phone.trim()) {
+      setStatusMessage({
+        type: "error",
+        text: "Please enter your name and phone number.",
+      });
       return;
     }
 
     setLoading(true);
+    setStatusMessage(null);
 
     try {
       await createAppointment(formData);
-      setSuccess(true);
+      setFormData(initialFormData);
+      setStatusMessage({
+        type: "success",
+        text: "Appointment request sent. We will call you back soon.",
+      });
     } catch (error) {
-      alert("Failed to book appointment");
+      setStatusMessage({
+        type: "error",
+        text: "We could not send your request. Please try again.",
+      });
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
   return (
     <>
@@ -209,6 +226,30 @@ export default function ContactSection() {
                       </select>
                     </div>
 
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="preferredDate">Preferred Date</Label>
+                        <Input
+                          id="preferredDate"
+                          name="preferredDate"
+                          type="date"
+                          value={formData.preferredDate}
+                          onChange={handleChange}
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="preferredTime">Preferred Time</Label>
+                        <Input
+                          id="preferredTime"
+                          name="preferredTime"
+                          type="time"
+                          value={formData.preferredTime}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+
                     <div className="space-y-2">
                       <Label htmlFor="message">Message (Optional)</Label>
                       <Textarea
@@ -229,9 +270,16 @@ export default function ContactSection() {
                       {loading ? "Booking..." : "Send Request"}
                     </Button>
 
-                    {success && (
-                      <p className="text-green-600 text-center">
-                        ✅ Appointment booked successfully
+                    {statusMessage && (
+                      <p
+                        className={`text-center ${
+                          statusMessage.type === "success"
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }`}
+                        role="status"
+                      >
+                        {statusMessage.text}
                       </p>
                     )}
                   </form>

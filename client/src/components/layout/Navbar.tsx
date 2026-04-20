@@ -50,7 +50,7 @@ export default function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
-              <div className="flex flex-col space-y-4 mt-8">
+              <div className="flex flex-col space-y-4 mt-8 items-center">
                 {navLinks.map((link) => (
                   <Link
                     key={link.name}
